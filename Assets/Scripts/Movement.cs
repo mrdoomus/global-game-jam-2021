@@ -20,8 +20,6 @@ public class Movement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 movementDirection = new Vector3(horizontalInput, 0.0f, verticalInput);
-        movementDirection.Normalize();
-
         rigid.AddForce(movementDirection * speed);
 
         if (movementDirection != Vector3.zero)
