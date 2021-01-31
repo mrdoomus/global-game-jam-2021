@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TimerCountdown : MonoBehaviour
 {
     public GameObject textDisplay;
+    public Text winLoseText;
+    public Movement playerMovement;
     public int secondsLeft = 30;
     public bool takingAway = false;
-
+    private bool lose;
 
     void Start ()
     {
         textDisplay.GetComponent<Text>().text = "00 : " + secondsLeft;
+        takingAway = true;
     }
 
     void Update ()
@@ -20,6 +24,18 @@ public class TimerCountdown : MonoBehaviour
         if (takingAway == false && secondsLeft > 0)
         {
             StartCoroutine(TimerTake());
+        }
+        else if (secondsLeft <= 0)
+        {
+            lose = true;
+            playerMovement.speed = 0;
+            winLoseText.text = "You weren't fast enough, Press R to play again";
+            winLoseText.color = new Color(255, 255, 255, 255);
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 
