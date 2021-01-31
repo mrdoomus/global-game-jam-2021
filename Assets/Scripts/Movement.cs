@@ -5,20 +5,39 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public Rigidbody rigid;
-    public float horizontal;
-    public float vertical;
-    public float rate = 100f;
-
+    public Animator anim;
+    
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+       
     }
+
+    public float speed;
+    public float rotationAnglePerSecond;
 
     void Update()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0.0f, vertical);
-        rigid.AddForce(direction * rate);
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        
+        if(horizontalInput != 0 || verticalInput != 0)
+        {
+            anim.SetFloat("swim", 1);
+        }
+        else
+        {
+            anim.SetFloat("swim", 0);
+        }
+
+        Vector3 movementDirection = new Vector3(horizontalInput, 0.0f, verticalInput);
+        rigid.AddForce(movementDirection * (speed - GameController.instance.children.Count * 10f));
+
+        if (movementDirection != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationAnglePerSecond * Time.deltaTime);
+        }
     }
 }
