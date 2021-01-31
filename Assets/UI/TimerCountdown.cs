@@ -15,7 +15,7 @@ public class TimerCountdown : MonoBehaviour
 
     void Start ()
     {
-        textDisplay.GetComponent<Text>().text = "00 : " + secondsLeft;
+        textDisplay.GetComponent<Text>().text = secondsLeft + " s";
         takingAway = true;
     }
 
@@ -46,11 +46,11 @@ public class TimerCountdown : MonoBehaviour
         secondsLeft -= 1;
         if (secondsLeft <10)
         {
-            textDisplay.GetComponent<Text>().text = "00 : 0" + secondsLeft;
+            textDisplay.GetComponent<Text>().text = secondsLeft + " s";
         }
         else
         {
-            textDisplay.GetComponent<Text>().text = "00 : " + secondsLeft;
+            textDisplay.GetComponent<Text>().text = secondsLeft + " s";
         }
         
         takingAway = false;

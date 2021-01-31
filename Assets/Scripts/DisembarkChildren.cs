@@ -7,6 +7,9 @@ public class DisembarkChildren : MonoBehaviour
     public Transform[] childPositions;
     private int arrayPosition;
 
+    public delegate void DisembarkChild();
+    public event DisembarkChild OnDisembark;
+
     private void Start()
     {
         arrayPosition = 0;
@@ -22,6 +25,9 @@ public class DisembarkChildren : MonoBehaviour
                 GameController.instance.children[i].ChangeTargerts(childPositions[arrayPosition]);
                 GameController.instance.children[i].MoveAndDisable();
                 arrayPosition++;
+
+                if (OnDisembark != null)
+                    OnDisembark();
             }
         }
     }

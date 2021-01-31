@@ -25,7 +25,7 @@ public class ChildrenCounter : MonoBehaviour
         childsLeft = numberOfChilds;
         childrenTextCounter.text = childsLeft + " left";
         //Suscribirse al evento
-        //FindObjectOfType<DisembarkChildren>().NombreFuncionDesembarque += OnDisembark;
+        FindObjectOfType<DisembarkChildren>().OnDisembark += OnDisembark;
     }
 
     private void Update()
