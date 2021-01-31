@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class DisembarkChildren : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform[] childPositions;
+    private int arrayPosition;
+
+    private void Start()
     {
-        
+        arrayPosition = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.tag == "Player")
+        {
+            for (int i = 0; i < GameController.instance.children.Count; i++)
+            {
+                GameController.instance.children[i].ChangeTargerts(childPositions[arrayPosition]);
+                GameController.instance.children[i].MoveAndDisable();
+                arrayPosition++;
+            }
+        }
     }
+
 }

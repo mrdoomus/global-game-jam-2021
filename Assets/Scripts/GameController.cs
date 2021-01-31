@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
-    public List<GameObject> children = new List<GameObject>();
+    public List<FollowTarget> children = new List<FollowTarget>();
 
     private void Awake()
     {
@@ -20,5 +20,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void addChildren(GameObject gameObject) { children.Add(gameObject); }
+    public void addChildren(FollowTarget gameObject) { children.Add(gameObject); }
+    public void removeChildren(FollowTarget gameObject) { children.Remove(gameObject); }
 }

@@ -6,13 +6,12 @@ public class Movement : MonoBehaviour
 {
     public Rigidbody rigid;
     public Animator anim;
-    public AudioClip swim;
-    private AudioSource audioSource;
+    
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+       
     }
 
     public float speed;
@@ -26,20 +25,14 @@ public class Movement : MonoBehaviour
         if(horizontalInput != 0 || verticalInput != 0)
         {
             anim.SetFloat("swim", 1);
-           
-            //Debug.Log(verticalInput);
-            if (!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(swim);
-            }
         }
         else
         {
             anim.SetFloat("swim", 0);
-            audioSource.Stop();
         }
+
         Vector3 movementDirection = new Vector3(horizontalInput, 0.0f, verticalInput);
-        rigid.AddForce(movementDirection * speed);
+        rigid.AddForce(movementDirection * (speed - GameController.instance.children.Count * 10f));
 
         if (movementDirection != Vector3.zero)
         {

@@ -6,7 +6,31 @@ public class FollowTarget : MonoBehaviour
 {
     public Transform objectToFollow;
     public bool hasCollided = false;
-    private Vector3 offset = new Vector3(0, 0, -15f);
+    public Vector3 offset = new Vector3(0, 15f, -25f);
+    public bool followFromStart = false;
+
+    private void Start()
+    {
+        if (followFromStart)
+        {
+            hasCollided = true;
+            StartCoroutine(FollowPlayer());
+        }
+    }
+
+    public void ChangeTargerts(Transform transform)
+    {
+        objectToFollow = transform;
+        hasCollided = false;
+        StopAllCoroutines();
+    }
+
+    public void MoveAndDisable()
+    {
+        transform.position = objectToFollow.position;
+        GameController.instance.removeChildren(this);
+        enabled = false;
+    }
 
     void OnTriggerEnter(Collider collider)
     {
@@ -15,7 +39,7 @@ public class FollowTarget : MonoBehaviour
             hasCollided = true;
 
             offset.z *= GameController.instance.children.Count + 1;
-            GameController.instance.addChildren(gameObject);
+            GameController.instance.addChildren(this);
 
             StartCoroutine(FollowPlayer());
         }
@@ -26,7 +50,7 @@ public class FollowTarget : MonoBehaviour
         while(hasCollided)
         {
             transform.position = objectToFollow.position + offset;
-            transform.rotation = new Quaternion(objectToFollow.localRotation.x / 2, objectToFollow.localRotation.y / 2, objectToFollow.localRotation.z / 2, 1);
+            if (!followFromStart) transform.rotation = new Quaternion(objectToFollow.localRotation.x / 2, objectToFollow.localRotation.y / 2, objectToFollow.localRotation.z / 2, 1);
             yield return null;
         }
     }
